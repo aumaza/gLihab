@@ -1,0 +1,152 @@
+#crear nuevo usuario y luego cambiar datos en archivo connection.php
+CREATE USER 'glihab'@'localhost' IDENTIFIED BY 'glihab';
+GRANT ALL PRIVILEGES ON gnu_lihab . * TO 'glihab'@'localhost';
+FLUSH PRIVILEGES;
+
+#tabla usuarios
+create table glh_usuarios (
+id int(11) auto_increment primary key, 
+nombre varchar(60) binary not null, 
+user varchar(90) binary not null, 
+password varchar(73) binary not null, 
+email varchar(90) not null, 
+role int(1) default 1 not null,
+avatar varchar(120),
+entorno set('EMP','ADM','LIQ','MED','PER') not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#tabla empleados
+create table glh_empleados(
+id int(11) auto_increment primary key,
+nombre varchar(60) binary not null,
+fecha_nac date not null,
+edad int(11) not null,
+genero enum('Masculino','Femenino','Otro') not null,
+cuil varchar(11) not null,
+dni varchar(8) not null,
+direccion varchar(90) not null,
+calle_1 varchar(90),
+calle_2 varchar(90),
+localidad varchar(6) not null,
+provincia varchar(6) not null,
+tel varchar(40) not null,
+movil varchar(40) not null,
+email varchar(90) not null,
+estado_civil varchar(30) not null,
+nivel_estudios varchar(24) not null,
+titulo_nombre varchar(200) not null,
+categoria varchar(100) not null,
+nivel_categoria varchar(4) not null,
+fecha_ingreso date not null,
+fecha_egreso date,
+razon_egreso enum('Renuncia','Despido Justificado','Despido Injustificado','Jubilación','Baja Médica'),
+hijos_cant int(11) not null,
+familiares enum('Si','No') not null,
+id_empresa int(11) not null,
+tipo_cta_bca enum('Cuenta Corriente','Caja de Ahorro') not null,
+cbu varchar(22) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#tabla familiares
+create table glh_familiares(
+id int(11) auto_increment primary key,
+id_empleado int(11) not null,
+nombre varchar(60) binary not null,
+dni varchar(11) not null,
+fecha_nac date not null,
+edad int(11) not null,
+relacion varchar(9) not null,
+tel varchar(10) not null,
+cel varchar(10) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#tabla empresas
+create table glh_empresas(
+id int(11) primary key auto_increment,
+razon_social varchar(100) not null,
+tipo_sociedad enum('SA','SCS','SRL','SNC','SCA','SAS','COOP','SSFL','FUN') not null,
+cuit int(11) not null,
+direccion varchar(200) not null,
+cod_localidad varchar(12) not null,
+cod_provincia varchar(4) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#tabla localidades
+create table glh_localidades(
+id int(11) auto_increment primary key,
+cod_dpto varchar(5) not null,
+dpto_nombre varchar(200) not null,
+cod_localidad varchar(12) not null,
+localidad_nombre varchar(200) not null,
+cod_municipio varchar(11) not null,
+municipio_nombre varchar(200),
+nombre varchar(200) not null,
+cod_prov varchar(4) not null,
+provincia_nombre varchar(50) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#tabla glh_municipios
+create table glh_municipios(
+id int(11) auto_increment primary key,
+cod_municipio varchar(7) not null,
+descripcion varchar(200) not null,
+municipio varchar(200) not null,
+cod_provincia varchar(4) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#tabla glh_provincias
+create table glh_provincias(
+id int(11) auto_increment primary key,
+cod_prov varchar(4) not null,
+provincia varchar(100) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#tabla categorias
+create table glh_categorias(
+id int(11) auto_increment primary key,
+cod_categoria varchar(6) not null,
+sector varchar(150) not null,
+banda_hetaria enum('Menores 16','Menores 17','Adultos'),
+hrs_jornada int(11) not null,
+categoria varchar(200) not null,
+nivel varchar(100) not null,
+importe float(8,2) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#tabla agrupamientos
+create table glh_agrupamientos(
+id int(11) auto_increment primary key,
+sector varchar(200) not null,
+categoria varchar(200) not null,
+nivel varchar(100) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#tabla conceptos
+create table glh_conceptos(
+id int(11) auto_increment primary key,
+cod_concepto int(6) not null,
+tipo_concepto enum('Remunerativo','No Remunerativo','Otro','Convenio') not null,
+descripcion varchar(100) not null,
+porcentaje float(8,2)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#subir csv localidades
+load data local infile '/mnt/sda3/server/gLihab/core/sqls/localidades.csv' 
+into table glh_localidades fields terminated by ',' enclosed by '"' lines terminated by '\n' IGNORE 1 ROWS
+(cod_dpto,dpto_nombre,cod_localidad,localidad_nombre,cod_municipio,municipio_nombre,nombre,cod_prov,provincia_nombre);
+
+
+#subir csv municipios
+load data local infile '/mnt/sda3/server/gLihab/core/sqls/municipios.csv' 
+into table glh_municipios fields terminated by ',' enclosed by '"' lines terminated by '\n' IGNORE 1 ROWS
+(cod_municipio,descripcion,municipio,cod_provincia);
+
+#subir csv provincias
+load data local infile '/mnt/sda3/server/gLihab/core/sqls/provincias.csv' 
+into table glh_provincias fields terminated by ',' enclosed by '"' lines terminated by '\n' IGNORE 1 ROWS
+(cod_prov,provincia);
