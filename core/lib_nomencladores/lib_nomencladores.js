@@ -1,3 +1,6 @@
+// ====================================================================================== //
+// GUARDA NUEVO REGISTRO //
+
 /*
 ** funcion guarda un nuevo concepto a base de datos
 */
@@ -156,6 +159,69 @@ $(document).ready(function(){
 
 
 /*
+** funcion guarda nuevo CATEGORÍA a base de datos
+*/
+
+$(document).ready(function(){
+    $('#add_new_categoria').click(function(){
+        
+        var datos = $('#fr_add_new_categoria_ajax').serialize();
+        
+        $.ajax({
+            type:"POST",
+            url:"../../lib_nomencladores/nueva_categoria.php",
+            data:datos,
+            success:function(r){
+                if(r == 1){
+                    alert("Registro Guardado Exitosamente!!");
+                    $('#sector').val('');
+                    $('#categoria').val('');
+                    $('#nivel').val('');
+                    $('#hrs_jornada').val('');
+                    $('#importe').val('');
+                    $('#sector').focus('');
+                    console.log("Datos: " + datos);
+                }else if(r == -1){
+                    alert("Error. Hubo un problema al intentar guardar el registro");
+                    console.log("Datos: " + datos);
+                }else if(r == 5){
+                    alert("Error, Hay campos sin completar!!");
+                    console.log("Datos: " + datos);
+                }else if(r == 4){
+                    alert("Error. Agrupamiento Existente!!");
+                    $('#sector').val('');
+                    $('#categoria').val('');
+                    $('#nivel').val('');
+                    $('#hrs_jornada').val('');
+                    $('#importe').val('');
+                    $('#sector').focus('');
+                    console.log("Datos: " + datos);
+                }else if(r == 13){
+                    alert("Error de conexion!!");                    
+                }else if(r == 7){
+                    alert("No se pudo realizar la Consulta!!");                    
+                }
+                else if(r == 9){
+                    alert("El valor del importe debe ser un número con decimales!!");                    
+                }
+                else if(r == ''){
+                   console.log("Datos: " + datos);                  
+                }
+                
+            }
+        });
+
+        return false;
+    
+});
+});
+
+
+// ====================================================================================== //
+// GUARDA EDICION REALIZADA //
+
+
+/*
 ** funcion editar concepto a base de datos
 */
 
@@ -268,7 +334,8 @@ $(document).ready(function(){
 });
 });
 
-
+// ====================================================================================== //
+// DSBLOQUEAR INPUT O SELECTS EN FORMUALRIOS DE EDICION //
 
 /*
 ** BLOQUEA LOS CAMPOS A EDITAR HASTA QUE EL USUARIO SELECCIONE EL QUE DESEA
@@ -301,7 +368,22 @@ $(document).ready(function(){
     }
 }
 
+/*
+** BLOQUEA LOS CAMPOS A EDITAR HASTA QUE EL USUARIO SELECCIONE EL QUE DESEA
+*/
+ var callEditAgrupamiento = function(x){
+            
+    if((x == 'edit_sector') || 
+            (x == 'edit_categoria') || 
+                (x == 'edit_nivel')){
+                
+        document.getElementById(x).readOnly = false;
+    }
+}
 
+
+// ====================================================================================== //
+// COMPLETA SELECTORES DE OPCIONES //
 
 /*
 ** funcion que completa select con lo filtrado de otro select
@@ -321,14 +403,37 @@ function CargarLocalidad(val){
 }
 
 /*
-** BLOQUEA LOS CAMPOS A EDITAR HASTA QUE EL USUARIO SELECCIONE EL QUE DESEA
+** funcion que completa select con lo filtrado de otro select
 */
- var callEditAgrupamiento = function(x){
-            
-    if((x == 'edit_sector') || 
-            (x == 'edit_categoria') || 
-                (x == 'edit_nivel')){
-                
-        document.getElementById(x).readOnly = false;
-    }
+
+function CargarCategoria(val){
+    $.ajax({
+        type: "POST",
+        url: '../../lib_nomencladores/consulta_categoria.php',
+        data: 'sector='+val,
+        success: function(resp){
+            $('#categoria').html(resp);
+            $('#respuesta').html("");
+            console.log(resp);
+        }
+    });
 }
+
+
+/*
+** funcion que completa select con lo filtrado de otro select
+*/
+
+function CargarNivel(val){
+    $.ajax({
+        type: "POST",
+        url: '../../lib_nomencladores/consulta_categoria.php',
+        data: 'categoria='+val,
+        success: function(resp){
+            $('#nivel').html(resp);
+            $('#respuesta2').html("");
+            console.log(resp);
+        }
+    });
+}
+

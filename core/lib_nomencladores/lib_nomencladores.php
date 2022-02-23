@@ -190,7 +190,7 @@ if($conn){
 			 echo "<td align=center>".$fila['sector']."</td>";
 			 echo "<td align=center>".$fila['categoria']."</td>";
 			 echo "<td align=center>".$fila['nivel']."</td>";
-			 echo "<td align=center>".$fila['importe']."</td>";
+			 echo "<td align=center>$".$fila['importe']."</td>";
 			 echo "<td class='text-nowrap'>";
 			 echo '<form action="#" method="POST">
                     <input type="hidden" name="id" value="'.$fila['id'].'" >
@@ -204,8 +204,8 @@ if($conn){
 		echo "</table>";
 		echo "<br>";
 		echo '<form action="#" method="POST">
-                <input type="hidden" value="Remunerativo" name="concepto">
-                <button type="submit" class="btn btn-warning btn-sm" name="nueva_categoría" data-toggle="tooltip" data-placement="right" title="Agregar Nueva Categoría">
+                
+                <button type="submit" class="btn btn-warning btn-sm" name="nueva_categoria" data-toggle="tooltip" data-placement="right" title="Agregar Nueva Categoría">
                     <img class="img-reponsive img-rounded" src="../../icons/actions/list-add.png" /> Nueva Categoría</button>
               </form><br>';
 		echo '<button type="button" class="btn btn-primary">Cantidad de Categorías:  ' .$count; echo '</button>';
@@ -225,13 +225,13 @@ if($conn){
 /*
 ** formulario de alta de categorías
 */
-function formAltaCategorias(){
+function formAltaCategorias($conn){
 
     
 
     echo '<div class="container">
             <div class="alert alert-secondary">
-            Alta de Empresa
+            Alta de Categoría
             </div>
                                    
             <form id="fr_add_new_categoria_ajax" method="POST">
@@ -243,17 +243,45 @@ function formAltaCategorias(){
                     
                                                                   
                         <div class="form-group">
-                            <label for="convenio">Convenio:</label>
-                            <input type="text" class="form-control" id="convenio" name="convenio" placeholder="Ingrese el Nombre del Convenio" required>
-                        </div>
+                        <label for="sector">Sector/Gremio</label>
+                        <select class="form-control" name="sector" id="sector" onchange="CargarCategoria(this.value);" required>
+                        <option value="" disabled selected>Seleccionar</option>';
+                        
+                        
+                        $query = "SELECT sector FROM glh_agrupamientos group by sector ASC";
+                        mysqli_select_db($conn,'gnu_lihab');
+                        $res = mysqli_query($conn,$query);
+
+                        if($res){
+                            while($valores = mysqli_fetch_array($res)){
+                                echo '<option value="'.$valores[sector].'" >'.$valores[sector].'</option>';
+                            }
+                            }
+                        
+                    echo '</select>
+                            </div>
                     
+                        <div class="form-group">
+                                <label for="categoria">Categorías:</label>
+                                <select class="form-control" name="categoria" id="categoria" onchange="CargarNivel(this.value)" required>
+                                    <div id="respuesta"></div>
+                                </select>
+                            </div>
+                            
+                        <div class="form-group">
+                                <label for="nivel">Nivel:</label>
+                                <select class="form-control" name="nivel" id="nivel" required>
+                                    <div id="respuesta2"></div>
+                                </select>
+                            </div><hr>
+                        
                         <div class="form-group">
                             <label for="banda_hetaria">Banda Hetaria:</label>
                             <select class="form-control" id="banda_hetaria" name="banda_hetaria" required>
                                 <option value="" disabled selected>Seleccionar</option>
-                                <option value="16">Menores 16</option>
-                                <option value="17">Menores 17</option>
-                                <option value="18">Adultos</option>
+                                <option value="Menores 16">Menores 16</option>
+                                <option value="Menores 17">Menores 17</option>
+                                <option value="Adultos">Adultos</option>
                             </select>
                         </div>
                         
@@ -268,51 +296,16 @@ function formAltaCategorias(){
                         </div>
                         
                         <div class="form-group">
-                            <label for="categoria">Categoría:</label>
-                            <select class="form-control" id="categoria" name="categoria" required>
-                                <option value="" disabled selected>Seleccionar</option>
-                                <option value="Maestranza">Mestranza</option>
-                                <option value="Administrativo">Administrativo</option>
-                                <option value="Cajero">Cajero</option>
-                                <option value="Auxiliar">Auxiliar</option>
-                                <option value="Auxiliar Especializado">Auxiliar Especializado</option>
-                                <option value="Vendedor">Vendedor</option>
-                                <option value="Cajeros">Cajeros</option>
-                            </select>
+                            <label for="importe">Importe / Sueldo:</label>
+                            <input type="text" class="form-control" id="importe" name="importe" placeholder="Ingrese el Importe del haber y para los decimales utilice un punto Ej.: 16500.50" required>
                         </div>
-                        
-                        <div class="form-group">
-                        <label for="provincia">Provincias</label>
-                        <select class="form-control" name="cod_provincia" id="cod_provincia" onchange="CargarLocalidad(this.value);" required>
-                        <option value="" disabled selected>Seleccionar</option>';
-                        
-                        
-                        $query = "SELECT cod_prov, provincia FROM glh_provincias order by provincia ASC";
-                        mysqli_select_db($conn,'gnu_lihab');
-                        $res = mysqli_query($conn,$query);
-
-                        if($res){
-                            while($valores = mysqli_fetch_array($res)){
-                                echo '<option value="'.$valores[cod_prov].'" >'.$valores[provincia].'</option>';
-                            }
-                            }
-                        
-                    echo '</select>
-                            </div><hr>
-                            
-                            <div class="form-group">
-                                <label for="localidad">Localidades:</label>
-                                <select class="form-control" name="cod_localidad" id="cod_localidad" required>
-                                    <div id="respuesta"></div>
-                                </select>
-                            </div><hr>
                                       
                     
                     </div>
                 </div>
                 </div><hr>
                 
-                <button type="submit" class="btn btn-secondary btn-block" id="add_new_empresa" name="agregar_empresa">
+                <button type="submit" class="btn btn-secondary btn-block" id="add_new_categoria" name="agregar_categoria">
                     <img class="img-reponsive img-rounded" src="../../icons/actions/list-add.png" /> Agregar</button>
             </form>
            
@@ -321,6 +314,59 @@ function formAltaCategorias(){
 
 }
 
+
+// PERSISTENCIA CATEGORIAS //
+/*
+** FUNCION QUE GUARDA REGISTRO DE CATEGORIAS A BASE DE DATOS
+*/
+function addNewCategoria($sector,$categoria,$nivel,$banda_hetaria,$hrs_jornada,$importe,$conn){
+    
+    mysqli_select_db($conn,'gnu_lihab');
+    $sql = "select * from glh_categorias where sector = '$sector' and categoria = '$categoria' and nivel = '$nivel'";
+    $query = mysqli_query($conn,$sql);
+    
+    
+      
+    if($query){  
+      
+      $rows = mysqli_num_rows($query);
+      
+    if($rows == 0){
+    
+        $sql_2 = "INSERT INTO glh_categorias ".
+                 "(sector,
+                   categoria,
+                   nivel,
+                   banda_hetaria,
+                   hrs_jornada,
+                   importe
+                   )".
+                 "VALUES ".
+                 "('$sector',
+                   '$categoria',
+                   '$nivel',
+                   '$banda_hetaria',
+                   '$hrs_jornada',
+                   '$importe'
+                  )";
+                 
+                 $query_2 = mysqli_query($conn,$sql_2);
+                        
+            if($query_2){
+                echo 1; // registro insertado correctamente
+            }else{
+                echo -1; // hubo un problema al insertar el registro
+            }
+    
+    }else if($rows == 1){
+        
+            echo 4; // registro existente
+    }
+    }else{
+        echo 7; // no se pudo realizar la consulta
+    }
+    
+}
 
 // ==================================================================================================================================== //
 // AGRUPAMIENTOS

@@ -258,6 +258,9 @@
             if(isset($_POST['categorias'])){
                 categorias($conn);
             }
+            if(isset($_POST['nueva_categoria'])){
+                formAltaCategorias($conn);
+            }
             
             
             // ESPACIO AGRUPAMIENTOS
