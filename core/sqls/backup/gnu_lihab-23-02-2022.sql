@@ -50,7 +50,6 @@ DROP TABLE IF EXISTS `glh_categorias`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `glh_categorias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cod_categoria` varchar(6) NOT NULL,
   `sector` varchar(150) NOT NULL,
   `banda_hetaria` enum('Menores 16','Menores 17','Adultos') DEFAULT NULL,
   `hrs_jornada` int(11) NOT NULL,
@@ -58,7 +57,7 @@ CREATE TABLE `glh_categorias` (
   `nivel` varchar(100) NOT NULL,
   `importe` float(8,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +66,7 @@ CREATE TABLE `glh_categorias` (
 
 LOCK TABLES `glh_categorias` WRITE;
 /*!40000 ALTER TABLE `glh_categorias` DISABLE KEYS */;
+INSERT INTO `glh_categorias` VALUES (1,'FAECYS','Adultos',9,'MAESTRANZA','A',81527.05),(2,'FAECYS','Adultos',9,'MAESTRANZA','B',81763.02),(3,'FAECYS','Adultos',9,'MAESTRANZA','C',82589.84),(4,'FAECYS','Adultos',9,'ADMINISTRATIVO','A',82412.81),(5,'FAECYS','Adultos',9,'ADMINISTRATIVO','B',82767.42),(6,'FAECYS','Adultos',9,'ADMINISTRATIVO','C',83121.76),(7,'FAECYS','Adultos',9,'ADMINISTRATIVO','D',84185.09),(8,'FAECYS','Adultos',9,'ADMINISTRATIVO','E',85070.93),(9,'FAECYS','Adultos',9,'ADMINISTRATIVO','F',86370.49),(10,'FAECYS','Adultos',9,'CAJERO','A',82708.04),(11,'FAECYS','Adultos',9,'CAJERO','B',83121.73),(12,'FAECYS','Adultos',9,'CAJERO','C',83653.38),(13,'FAECYS','Adultos',9,'AUXILIAR','A',82708.04),(14,'FAECYS','Adultos',9,'AUXILIAR','B',83298.75),(15,'FAECYS','Adultos',9,'AUXILIAR','C',85248.16),(16,'FAECYS','Adultos',9,'AUXILIAR ESPECIALIZADO','A',83417.19),(17,'FAECYS','Adultos',9,'AUXILIAR ESPECIALIZADO','B',84480.31),(18,'FAECYS','Adultos',9,'VENDEDOR','A',82708.04),(19,'FAECYS','Adultos',9,'VENDEDOR','B',84480.53),(20,'FAECYS','Adultos',9,'VENDEDOR','C',85070.93),(21,'FAECYS','Adultos',9,'VENDEDOR','D',86370.49);
 /*!40000 ALTER TABLE `glh_categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,4 +279,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-23 12:55:16
+-- Dump completed on 2022-02-23 19:27:05

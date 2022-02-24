@@ -334,6 +334,48 @@ $(document).ready(function(){
 });
 });
 
+/*
+** funcion editar importe de categoria a base de datos
+*/
+
+$(document).ready(function(){
+    $('#update_categoria').click(function(){
+        
+        var datos = $('#fr_update_categoria_ajax').serialize();
+        
+        $.ajax({
+            type:"POST",
+            url:"../../lib_nomencladores/update_importe.php",
+            data:datos,
+            success:function(r){
+                if(r == 1){
+                    alert("Registro Actualizado Exitosamente!!");
+                    window.location.href="main.php";
+                }else if(r == -1){
+                    alert("Error. Hubo un problema al intentar Actualizar el Registro");
+                    console.log("Datos: " + datos);
+                }else if(r == 5){
+                    alert("Error, Hay campos sin completar!!");
+                    console.log("Datos: " + datos);
+                }else if(r == 7){
+                    alert("Error de conexion dentro de la funcion principal!!");                    
+                }else if(r == 9){
+                    alert("El valor del importe debe ser un número con decimales!!");                    
+                }
+                else if(r == 13){
+                    alert("Error de conexion!!");                    
+                }
+                
+            }
+        });
+
+        return false;
+    
+});
+});
+
+
+
 // ====================================================================================== //
 // DSBLOQUEAR INPUT O SELECTS EN FORMUALRIOS DE EDICION //
 
@@ -376,6 +418,17 @@ $(document).ready(function(){
     if((x == 'edit_sector') || 
             (x == 'edit_categoria') || 
                 (x == 'edit_nivel')){
+                
+        document.getElementById(x).readOnly = false;
+    }
+}
+
+/*
+** BLOQUEA LOS CAMPOS A EDITAR HASTA QUE EL USUARIO SELECCIONE EL QUE DESEA
+*/
+ var callEditImporte = function(x){
+            
+    if(x == 'edit_importe'){
                 
         document.getElementById(x).readOnly = false;
     }

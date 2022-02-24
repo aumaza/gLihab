@@ -261,6 +261,10 @@
             if(isset($_POST['nueva_categoria'])){
                 formAltaCategorias($conn);
             }
+            if(isset($_POST['editar_categoria'])){
+                $id = mysqli_real_escape_string($conn,$_POST['id']);
+                formEditCategorias($id,$conn);
+            }
             
             
             // ESPACIO AGRUPAMIENTOS

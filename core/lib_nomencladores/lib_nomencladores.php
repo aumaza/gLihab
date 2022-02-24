@@ -194,8 +194,8 @@ if($conn){
 			 echo "<td class='text-nowrap'>";
 			 echo '<form action="#" method="POST">
                     <input type="hidden" name="id" value="'.$fila['id'].'" >
-                <button type="submit" class="btn btn-primary btn-sm" name="editar_categoria" data-toggle="tooltip" data-placement="right" title="Editar Datos de Categoría">
-                    <img class="img-reponsive img-rounded" src="../../icons/actions/document-edit.png" /> Editar</button>
+                <button type="submit" class="btn btn-primary btn-sm" name="editar_categoria" data-toggle="tooltip" data-placement="right" title="Editar Importe">
+                    <img class="img-reponsive img-rounded" src="../../icons/actions/document-edit.png" /> Editar Importe</button>
               </form>';
 			 echo "</td>";
 			 $count++;
@@ -315,6 +315,82 @@ function formAltaCategorias($conn){
 }
 
 
+/*
+** formulario de edición de categorías
+*/
+function formEditCategorias($id,$conn){
+
+    $sql = "select * from glh_categorias where id = '$id'";
+    mysqli_select_db($conn,'gnu_glihab');
+    $query = mysqli_query($conn,$sql);
+    while($row = mysqli_fetch_array($query)){
+        $sector = $row['sector'];
+        $categoria = $row['categoria'];
+        $nivel = $row['nivel'];
+        $banda_hetaria = $row['banda_hetaria'];
+        $hrs_jornada = $row['hrs_jornada'];
+        $importe = $row['importe'];
+    }
+
+    echo '<div class="container">
+            <div class="alert alert-secondary">
+            Alta de Categoría
+            </div>
+                                   
+            <form id="fr_update_categoria_ajax" method="POST">
+            <input type="hidden" value="'.$id.'" name="id" id="id" required>
+             
+            <div class="container">     
+                <div class="row">
+                    <div class="col-sm-6">
+                    
+                                                                  
+                        <div class="form-group">
+                            <label for="sector">Sector / Gremio:</label>
+                            <input type="text" class="form-control" id="sector" name="sector" value="'.$sector.'" required readonly>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="categoria">Categoría:</label>
+                            <input type="text" class="form-control" id="categoria" name="categoria"value="'.$categoria.'" required readonly> 
+                        </div>
+                            
+                        <div class="form-group">
+                            <label for="nivel">Nivel:</label>
+                            <input type="text" class="form-control" id="nivel" name="nivel"value="'.$nivel.'" required readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="banda_hetaria">Banda Hetaria:</label>
+                            <input type="text" class="form-control" id="banda_hetaria" name="banda_hetaria" value="'.$banda_hetaria.'" required readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hrs_jornada">Horas Jornada:</label>
+                            <input type="text" class="form-control" id="hrs_jornada" name="hrs_jornada" value="'.$hrs_jornada.'" required readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="importe">Importe / Sueldo:</label>
+                            <input type="text" class="form-control" id="edit_importe" name="importe" placeholder="Ingrese el Importe del haber y para los decimales utilice un punto Ej.: 16500.50" value="'.$importe.'" required readonly>
+                            <button type="button" class="btn btn-warning" onclick=callEditImporte("edit_importe")>Habilitar</button>
+                        </div>
+                                      
+                    
+                    </div>
+                </div>
+                </div><hr>
+                
+                <button type="submit" class="btn btn-secondary btn-block" id="update_categoria" name="update_categoria">
+                    <img class="img-reponsive img-rounded" src="../../icons/actions/document-save-as.png" /> Guardar</button>
+            </form>
+           
+            </div>';
+
+
+}
+
+
 // PERSISTENCIA CATEGORIAS //
 /*
 ** FUNCION QUE GUARDA REGISTRO DE CATEGORIAS A BASE DE DATOS
@@ -366,6 +442,29 @@ function addNewCategoria($sector,$categoria,$nivel,$banda_hetaria,$hrs_jornada,$
         echo 7; // no se pudo realizar la consulta
     }
     
+}
+
+/*
+** guardar actualizacion de importe de categoria a base de datos
+*/
+function updateImporteCategoria($id,$importe,$conn){
+
+    if($conn){
+
+    $sql = "update glh_categorias set importe = '$importe' where id = '$id'";
+    mysqli_select_db($conn,'gnu_glihab');
+    $query = mysqli_query($conn,$sql);
+    
+    if($query){
+        echo 1; // registro actualizado correctamente
+    }else{
+        echo -1; // hubo un problema al actualizar el registro
+    }
+    
+    }else{
+        echo 7; // no es posible conectarse a la base de datos
+    }
+
 }
 
 // ==================================================================================================================================== //
