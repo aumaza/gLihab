@@ -5,6 +5,7 @@
       include "lib_main.php";
       include "../../lib_empleados/lib_empleados.php";
       include "../../lib_nomencladores/lib_nomencladores.php";
+      include "../../lib_gremios/lib_gremios.php";
       
       $usuario = $_SESSION['user'];
 	       
@@ -279,7 +280,19 @@
                 formEditAgrupamiento($id,$conn);
             }
         
-        
+            // ESPACIO GREMIOS
+            $gremio = new gremios();
+            
+            if(isset($_POST['gremio_convenio'])){
+                $gremio->listarGremios($gremio,$conn);
+            }
+            if(isset($_POST['nuevo_gremio'])){
+                $gremio->formAltaGremio();
+            }
+            if(isset($_POST['editar_gremio'])){
+                $id = mysqli_real_escape_string($conn,$_POST['id']);
+                $gremio->formEditGremio($id,$gremio,$conn);
+            }
         
         
         
@@ -333,6 +346,7 @@
     
     <!-- Sistem JavaScript-->
     <script src="../../lib_nomencladores/lib_nomencladores.js"></script>
+    <script src="../../lib_gremios/lib_gremios.js"></script>
     <!-- Bootstrap core JavaScript-->
     
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -19,25 +19,26 @@ entorno set('EMP','ADM','LIQ','MED','PER') not null
 #tabla empleados
 create table glh_empleados(
 id int(11) auto_increment primary key,
-nombre varchar(60) binary not null,
+nombre varchar(100) binary not null,
 fecha_nac date not null,
-edad int(11) not null,
 genero enum('Masculino','Femenino','Otro') not null,
 cuil varchar(11) not null,
 dni varchar(8) not null,
-direccion varchar(90) not null,
-calle_1 varchar(90),
-calle_2 varchar(90),
-localidad varchar(6) not null,
-provincia varchar(6) not null,
-tel varchar(40) not null,
+direccion varchar(100) not null,
+calle_1 varchar(100),
+calle_2 varchar(100),
+cod_loc varchar(8) not null,
+cod_prov varchar(4) not null,
+tel_fijo varchar(40) not null,
 movil varchar(40) not null,
-email varchar(90) not null,
+email varchar(100) not null,
 estado_civil varchar(30) not null,
 nivel_estudios varchar(24) not null,
 titulo_nombre varchar(200) not null,
 categoria varchar(100) not null,
-nivel_categoria varchar(4) not null,
+nivel_categoria varchar(100) not null,
+gremio varchar(100) not null,
+area varchar(100) not null,
 fecha_ingreso date not null,
 fecha_egreso date,
 razon_egreso enum('Renuncia','Despido Justificado','Despido Injustificado','Jubilación','Baja Médica'),
@@ -45,7 +46,8 @@ hijos_cant int(11) not null,
 familiares enum('Si','No') not null,
 id_empresa int(11) not null,
 tipo_cta_bca enum('Cuenta Corriente','Caja de Ahorro') not null,
-cbu varchar(22) not null
+cbu varchar(22) not null,
+estado_laboral enum('Activo','Baja') not null
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #tabla familiares
@@ -70,6 +72,13 @@ cuit int(11) not null,
 direccion varchar(200) not null,
 cod_localidad varchar(12) not null,
 cod_provincia varchar(4) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#tabla gremios
+create table glh_gremios(
+id int(11) auto_increment primary key,
+cod_gremio varchar(100) not null,
+descripcion varchar(200) not null
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

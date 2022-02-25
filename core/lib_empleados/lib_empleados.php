@@ -86,7 +86,7 @@ function altaEmpleado(){
             Alta de Empleado
             </div>
                                    
-            <form action="#" method="POST">
+            <form id="form_add_empleado_ajax" method="POST">
             
             <div class="container">     
                 <div class="row">
@@ -125,6 +125,8 @@ function altaEmpleado(){
                                 <option value="Soltero/a">Soltero/a</option>
                                 <option value="Casado/a">Casado/a</option>
                                 <option value="Divorciado/a">Divoricado/a</option>
+                                <option value="Separacion de Hecho">Separación de Hecho</option>
+                                <option value="Divorciado/a">Concubinato</option>
                             </select>
                             </div>
                             

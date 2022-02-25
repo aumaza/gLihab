@@ -482,8 +482,8 @@ function mainTools(){
                         <img class="img-reponsive img-rounded" src="../../icons/categories/accord.png" /> Convenios</button>
                         
                         <div class="dropdown-menu">
-                            <button type="submit" class="btn btn-light btn-sm btn-block" name="convenios">
-                                <img class="img-reponsive img-rounded" src="../../icons/actions/view-list-tree.png" /> Listar Convenios</button>
+                            <button type="submit" class="btn btn-light btn-sm btn-block" name="gremio_convenio">
+                                <img class="img-reponsive img-rounded" src="../../icons/actions/view-list-tree.png" /> Gremios / Convenios</button>
                             
                         </div>
                         </div>
